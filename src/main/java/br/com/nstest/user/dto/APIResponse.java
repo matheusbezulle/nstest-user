@@ -1,10 +1,21 @@
 package br.com.nstest.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class APIResponse {
 	
 	private Boolean success;
 	private String message;
 	private Object body;
+	
+	public APIResponse() { }
+	
+	public APIResponse(Boolean success, String message, Object body) {
+		this.success = success;
+		this.message = message;
+		this.body = body;
+	}
 	
 	public Boolean getSuccess() {
 		return success;

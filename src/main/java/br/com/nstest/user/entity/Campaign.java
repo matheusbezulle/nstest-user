@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
@@ -21,6 +22,7 @@ public class Campaign implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "ID_HEART_TEAM")
+	@JsonBackReference
 	private HeartTeam heartTeam;
 
 	@Column

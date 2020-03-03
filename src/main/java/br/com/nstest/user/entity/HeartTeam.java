@@ -30,6 +30,12 @@ public class HeartTeam implements Serializable {
 	
 	@OneToMany(mappedBy = "heartTeam")
 	private List<User> users;
+	
+	public HeartTeam() { }
+	
+	public HeartTeam(Integer id) {
+		this.id = id;
+	}
 
 	public Integer getId() {
 		return id;

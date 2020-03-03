@@ -76,7 +76,7 @@ class UserApplicationTests {
 		when(userRepository.save(any(User.class))).thenReturn(getDefaultUser());
 		when(restTemplate.getForEntity(anyString(), any())).thenReturn(new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK));
 		
-		assertEquals(userController.create(user).getStatusCode(), HttpStatus.OK);
+		assertEquals(userController.create(user).getStatusCode(), HttpStatus.CREATED);
 	}
 	
 	@Test
@@ -88,7 +88,7 @@ class UserApplicationTests {
 		when(userRepository.save(any(User.class))).thenReturn(getDefaultUser());
 		doThrow(new RestClientException("")).when(restTemplate).getForEntity(anyString(), any());
 		
-		assertEquals(userController.create(user).getStatusCode(), HttpStatus.OK);
+		assertEquals(userController.create(user).getStatusCode(), HttpStatus.CREATED);
 	}
 
 	

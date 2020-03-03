@@ -25,19 +25,21 @@ public class UserController {
 	@Autowired
 	private UserRepository repository;
 	
+	private RestTemplate restTemplate = new RestTemplate();
+	
 	@PostMapping
 	public ResponseEntity<APIResponse> create(@RequestBody User user) {
 		if(Objects.nonNull(user) && Objects.isNull(user.getUserId())) {
 			if(Objects.isNull(repository.findByEmail(user.getEmail()))) {
 				try {
-					user.getHeartTeam().setCampaigns(Arrays.asList(new RestTemplate().getForEntity(Constants.campaignAPIURL + "/campaign/findByHeartTeam?heartTeamId=" + user.getHeartTeam().getId(), Campaign[].class).getBody()));
+					user.getHeartTeam().setCampaigns(Arrays.asList(restTemplate.getForEntity(Constants.campaignAPIURL + "/campaign/findByHeartTeam?heartTeamId=" + user.getHeartTeam().getId(), Campaign[].class).getBody()));
 				} catch (Exception e) {
 					return new ResponseEntity<APIResponse>(new APIResponse(Boolean.TRUE, null, repository.save(user)), HttpStatus.CREATED);
 				}
 				return new ResponseEntity<APIResponse>(new APIResponse(Boolean.TRUE, null, repository.save(user)), HttpStatus.CREATED);
 			}
 			try {
-				return new ResponseEntity<APIResponse>(new APIResponse(Boolean.FALSE, Constants.userExistsMessage, new RestTemplate().getForEntity(Constants.campaignAPIURL + "/campaign/findByHeartTeam?heartTeamId=" + user.getHeartTeam().getId(), Campaign[].class).getBody()), HttpStatus.OK);
+				return new ResponseEntity<APIResponse>(new APIResponse(Boolean.FALSE, Constants.userExistsMessage, restTemplate.getForEntity(Constants.campaignAPIURL + "/campaign/findByHeartTeam?heartTeamId=" + user.getHeartTeam().getId(), Campaign[].class).getBody()), HttpStatus.OK);
 			} catch (Exception e) {
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
